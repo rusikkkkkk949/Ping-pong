@@ -48,8 +48,8 @@ FPS = 60
 
 
 #создания мяча и ракетки   
-racket1 = Player('KRUK3.png', 30, 200, 4, 50, 150) 
-racket2 = Player('KRUK4.png', 520, 200, 4, 50, 150)
+racket1 = Player('KRUK3.png', 30, 200, 7, 50, 150) 
+racket2 = Player('KRUK4.png', 520, 200, 7, 50, 150)
 ball = GameSprite('MAZ.png', 200, 200, 4, 50, 50)
 
 
@@ -59,8 +59,12 @@ lose1 = font.render('PLAYER 1 LOSE!', True, (180, 0, 0))
 lose2 = font.render('PLAYER 2 LOSE!', True, (180, 0, 0))
 
 
-speed_x = 3
-speed_y = 3
+speed_x = 7
+speed_y = 7
+
+score1 = 0
+score2 = 0
+max_score = 10
 
 
 while game:
@@ -87,6 +91,11 @@ while game:
 
        #если мяч улетел дальше ракетки, выводим условие проигрыша для первого игрока
        if ball.rect.x < 0:
+           finish = False
+           score2 += 1
+           ball.rect.x = 300
+           ball.rect.y = 250
+       if score1 >= max_score:
            finish = True
            window.blit(lose1, (200, 200))
            game_over = True
@@ -94,9 +103,22 @@ while game:
 
        #если мяч улетел дальше ракетки, выводим условие проигрыша для второго игрока
        if ball.rect.x > win_width:
+           finish = False
+           score1 += 1
+           ball.rect.x = 300
+           ball.rect.y = 250
+
+       if score2 >= max_score:
            finish = True
+
            window.blit(lose2, (200, 200))
+
            game_over = True
+
+       text1 = font.render("Счет 1 : " + str(score1), 1, (255, 255, 255))
+       window.blit(text1, (10, 20))
+       text2 = font.render("Счет 2 : " + str(score2), 1, (255, 255, 255))
+       window.blit(text2, (400, 20))
 
 
        racket1.reset()
